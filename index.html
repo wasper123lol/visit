@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игровой проект</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .logo {
+            width: 200px;
+            margin: 50px auto;
+            display: block;
+        }
+        
+        .walls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .wall {
+            width: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .wall-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .wall-btn:hover {
+            background: rgba(255,255,255,0.4);
+        }
+        
+        .project-name {
+            margin-top: auto;
+            padding: 30px;
+            font-size: 24px;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .paper {
+            background: white;
+            color: black;
+            width: 80%;
+            max-width: 600px;
+            padding: 40px;
+            border-radius: 5px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="logo.png" alt="Логотип" class="logo">
+        
+        <div class="walls">
+            <div class="wall" style="align-items: flex-end;">
+                <button class="wall-btn" onclick="showModal('О проекте', 'Описание вашего игрового проекта...')">О проекте</button>
+                <button class="wall-btn" onclick="showModal('Особенности', 'Ключевые особенности проекта')">Особенности</button>
+            </div>
+            
+            <div class="wall" style="align-items: flex-start;">
+                <button class="wall-btn" onclick="showModal('Галерея', 'Скриншоты из игры...')">Галерея</button>
+                <button class="wall-btn" onclick="showModal('Вступить', 'ссылка')">Контакты</button>
+            </div>
+        </div>
+        
+        <div class="project-name">
+            Название вашего проекта
+        </div>
+    </div>
+    
+    <div class="modal" id="modal">
+        <div class="paper">
+            <button class="close-btn" onclick="hideModal()">×</button>
+            <h2 id="modal-title">Заголовок</h2>
+            <p id="modal-content">Содержимое...</p>
+        </div>
+    </div>
+    
+    <script>
+        function showModal(title, content) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-content').textContent = content;
+            document.getElementById('modal').style.display = 'flex';
+        }
+        
+        function hideModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+        
+        // Закрытие по клику вне области
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('modal')) {
+                hideModal();
+            }
+        }
+    </script>
+</body>
+</html>
