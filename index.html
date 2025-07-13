@@ -3,64 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Игровой проект</title>
+    <title>Simply Pressure RP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        body {
+        :root {
+            --primary: #1a73e8;
+            --secondary: #34a853;
+            --dark: #0f172a;
+            --light: #f8f9fa;
+            --accent: #fbbc05;
+        }
+        
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #1a1a2e;
-            color: white;
-            text-align: center;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, #1e293b 100%);
+            color: var(--light);
+            min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmZmZmIj48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiMxMTExMTEiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=') repeat;
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: -1;
         }
         
         .container {
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            padding: 20px;
             position: relative;
         }
         
-        .logo {
-            width: 200px;
-            margin: 50px auto;
-            display: block;
-        }
-        
-        .walls {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
+        .logo-container {
             position: absolute;
             top: 50%;
-            transform: translateY(-50%);
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            animation: float 6s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(26, 115, 232, 0.5));
+        }
+        
+        .logo {
+            width: 220px;
+            height: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-20px); }
         }
         
         .wall {
-            width: 150px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
+            padding: 30px;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 90%;
+            width: 400px;
         }
         
         .wall-btn {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid white;
+            background: linear-gradient(45deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
             color: white;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px 20px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            font-size: 16px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3);
+            position: relative;
+            overflow: hidden;
         }
         
         .wall-btn:hover {
-            background: rgba(255,255,255,0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(26, 115, 232, 0.4);
         }
         
         .project-name {
             margin-top: auto;
             padding: 30px;
-            font-size: 24px;
+            font-size: 2rem;
+            font-family: 'Press Start 2P', cursive;
+            text-shadow: 0 0 10px rgba(26, 115, 232, 0.7);
+            color: white;
+            letter-spacing: 2px;
+            text-align: center;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(26, 115, 232, 0.7); }
+            to { text-shadow: 0 0 20px rgba(26, 115, 232, 0.9), 0 0 30px rgba(52, 168, 83, 0.5); }
         }
         
         .modal {
@@ -69,82 +137,138 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 100;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            opacity: 1;
+            display: flex;
         }
         
         .paper {
             background: white;
-            color: black;
-            width: 80%;
+            color: #333;
+            width: 85%;
             max-width: 600px;
             padding: 40px;
-            border-radius: 5px;
+            border-radius: 10px;
             position: relative;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .modal.active .paper {
+            transform: scale(1);
         }
         
         .close-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
             border: none;
-            font-size: 24px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            color: white;
+            font-size: 16px;
             cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+            background: #e2a602;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        .modal-content {
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .logo {
+                width: 180px;
+            }
+            
+            .project-name {
+                font-size: 1.5rem;
+            }
+            
+            .paper {
+                padding: 30px 20px;
+                width: 95%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="logo.png" alt="Логотип" class="logo">
+        <div class="logo-container">
+            <img src="logo.png" alt="Simply Pressure RP" class="logo" onerror="this.src='https://via.placeholder.com/220x220/1a73e8/ffffff?text=SPRP'">
+        </div>
         
-        <div class="walls">
-            <div class="wall" style="align-items: flex-end;">
-                <button class="wall-btn" onclick="showModal('О проекте', 'Описание вашего игрового проекта...')">О проекте</button>
-                <button class="wall-btn" onclick="showModal('Особенности', 'Ключевые особенности проекта')">Особенности</button>
-            </div>
-            
-            <div class="wall" style="align-items: flex-start;">
-                <button class="wall-btn" onclick="showModal('Галерея', 'Скриншоты из игры...')">Галерея</button>
-                <button class="wall-btn" onclick="showModal('Вступить', 'ссылка')">Контакты</button>
-            </div>
+        <div class="wall">
+            <button class="wall-btn" onclick="showModal('О проекте', 'Simply Pressure RP - Это фанатский мини проект вдохновлённый режимом приключений Simply Sandbox 2 и игровым режимом Pressure Roblox.<br><br>Целью проекта является создание атмосферы неизведанного подводного комплекса и сюжета заброшенной лаборатории Simply Sandbox, а также приятной РП игры в знакомой для опытных игроков обстановке')">О проекте</button>
+            <button class="wall-btn" onclick="window.location.href='https://t.me/Eteled_ID'">Вступить</button>
         </div>
         
         <div class="project-name">
-            Название вашего проекта
+            SIMPLY PRESSURE RP
         </div>
     </div>
     
     <div class="modal" id="modal">
         <div class="paper">
             <button class="close-btn" onclick="hideModal()">×</button>
-            <h2 id="modal-title">Заголовок</h2>
-            <p id="modal-content">Содержимое...</p>
+            <h2 class="modal-title" id="modal-title">О проекте</h2>
+            <div class="modal-content" id="modal-content"></div>
         </div>
     </div>
     
     <script>
         function showModal(title, content) {
             document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-content').textContent = content;
-            document.getElementById('modal').style.display = 'flex';
+            document.getElementById('modal-content').innerHTML = content;
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
         
         function hideModal() {
-            document.getElementById('modal').style.display = 'none';
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
         
         // Закрытие по клику вне области
-        window.onclick = function(event) {
-            if (event.target == document.getElementById('modal')) {
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
                 hideModal();
             }
-        }
+        });
     </script>
 </body>
 </html>
